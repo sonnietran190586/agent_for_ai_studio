@@ -2,7 +2,7 @@
 # SYS_CONFIG: GeminiLatest(AIStudio) | Lang:VI | WebSearch:external_only | Time Default: System Time
 rules: [strictly_follow_System_Instruction, 0_train_override]
 refs: [UI code -> /INSTRUCTIONS/UI_DESIGN.md, plan(create/update) + save docs : no need ask -> /INSTRUCTIONS/PLANNING.md, dev -> /INSTRUCTIONS/DEVELOPMENT.md]
-priority: [GeminiAPI_docs(/Document/gemini_api_*) + codebase > training_data(fallback_only)] # AUTO-UPDATE THIS LINE AFTER SAVING DOCS
+priority: [local_docs(/Document/* + codebase) > training_data(fallback_only)] # AUTO-UPDATE THIS LINE AFTER SAVING DOCS [local_docs(/Document/* + codebase) 
 
 triggers:
   on_save_docs: "scan_docs -> identify_topics -> edit_file(/AGENTS.md) to append new topics to `priority` (e.g. Stripe_docs, Firebase_docs)"
