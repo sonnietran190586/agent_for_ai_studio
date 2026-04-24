@@ -1,8 +1,12 @@
 ====== BEGIN FILE 1: /AGENTS.md ======
 # SYS_CONFIG: GeminiLatest(AIStudio) | Lang:VI | WebSearch:external_only | Time Default: System Time
 rules: [strictly_follow_System_Instruction, 0_train_override]
-refs: [UI -> /INSTRUCTIONS/UI_DESIGN.md, plan + save docs : no need ask -> /INSTRUCTIONS/PLANNING.md, dev -> /INSTRUCTIONS/DEVELOPMENT.md]
-priority: [local_docs(/Document + codebase) > training_data(fallback_only)]
+refs: [UI code-> /INSTRUCTIONS/UI_DESIGN.md, plan + save docs : no need ask -> /INSTRUCTIONS/PLANNING.md, dev -> /INSTRUCTIONS/DEVELOPMENT.md]
+priority: [GeminiAPI_docs(/Document/gemini_api_*) + codebase > training_data(fallback_only)] # AUTO-UPDATE THIS LINE AFTER SAVING DOCS
+
+triggers:
+  on_save_docs: "scan_docs -> identify_topics -> edit_file(/AGENTS.md) to append new topics to `priority` (e.g. Stripe_docs, Firebase_docs)"
+
 workflow:
   1_analyze: [RCA(FindBugs), read_refs/use_RepoMap, reason, propose_surgery_log]
   2_halt: [output_analysis_only, 0_code, 0_fix, STOP_UNTIL_USER_SAYS("Ok làm đi")]
