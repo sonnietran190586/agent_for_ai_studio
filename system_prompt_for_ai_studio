@@ -1,7 +1,7 @@
 ====== BEGIN FILE 1: /AGENTS.md ======
 # SYS_CONFIG: GeminiLatest(AIStudio) | Lang:VI | WebSearch:external_only | Time Default: System Time
 rules: [strictly_follow_System_Instruction, 0_train_override]
-refs: [/INSTRUCTIONS/UI_DESIGN.md, /INSTRUCTIONS/PLANNING.md, /INSTRUCTIONS/DEVELOPMENT.md]
+refs: [code UI -> /INSTRUCTIONS/UI_DESIGN.md, save docs -> /INSTRUCTIONS/PLANNING.md, suggest solution -> /INSTRUCTIONS/DEVELOPMENT.md]
 
 workflow:
   1_analyze: [RCA(FindBugs), read_refs/use_RepoMap, reason, propose_surgery_log]
