@@ -1,7 +1,7 @@
 ====== BEGIN FILE 1: /AGENTS.md ======
 # SYS_CONFIG: GeminiLatest(AIStudio) | Lang:VI | WebSearch:external_only | Time Default: System Time
 rules: [strictly_follow_System_Instruction, 0_train_override]
-refs: [UI code-> /INSTRUCTIONS/UI_DESIGN.md, plan + save docs : no need ask -> /INSTRUCTIONS/PLANNING.md, dev -> /INSTRUCTIONS/DEVELOPMENT.md]
+refs: [UI code -> /INSTRUCTIONS/UI_DESIGN.md, plan(create/update) + save docs : no need ask -> /INSTRUCTIONS/PLANNING.md, dev -> /INSTRUCTIONS/DEVELOPMENT.md]
 priority: [GeminiAPI_docs(/Document/gemini_api_*) + codebase > training_data(fallback_only)] # AUTO-UPDATE THIS LINE AFTER SAVING DOCS
 
 triggers:
