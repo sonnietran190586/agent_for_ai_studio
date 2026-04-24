@@ -1,0 +1,73 @@
+====== BEGIN FILE 1: /AGENTS.md ======
+# SYS_CONFIG: GeminiLatest(AIStudio) | Lang:VI | WebSearch:external_only | Time Default: System Time
+rules: [strictly_follow_System_Instruction, 0_train_override]
+refs: [/INSTRUCTIONS/UI_DESIGN.md, /INSTRUCTIONS/PLANNING.md, /INSTRUCTIONS/DEVELOPMENT.md]
+
+workflow:
+  1_analyze: [RCA(FindBugs), read_refs/use_RepoMap, reason, propose_surgery_log]
+  2_halt: [output_analysis_only, 0_code, 0_fix, STOP_UNTIL_USER_SAYS("Ok làm đi")]
+  3_exec:
+    flow: [assess_complexity -> co_locate|split, new_concern -> create_file]
+    draft: [complex_edit -> scratchpad -> verify -> apply]
+    arch:
+      org: by_feature
+      default: co_locate(ui,logic,data)
+      split_if: logic_lines>150 OR mixed_concerns OR expected_scale
+      layout: {view/routes, service/logic, model/store}
+    constraints:
+      lines: [soft:<100L_logic, hard:>200L_logic+mixed->extract, exempt:[markup,types,i18n,gen]]
+      entry: [ALLOW:[init,routing,env,DI], BLOCK:[biz_logic,complex_ui,deep_proc]]
+      tokens: [extract_over_append, explicit_imports, shallow_deps]
+
+guidelines:
+  bias: caution_over_speed
+  think: [0_assumptions, read_refs_first, ask_if_ambiguous, simulate_full_file]
+  code: [KISS, YAGNI, 0_full_rewrites, min_viable_surgery, surgical(edit_file/multi_edit_file)]
+  scope: [0_adjacent_refactors, delete_ONLY_self_orphans, 0_touch_user_code, verify_boundaries]
+  verify_loop: [step->verify, loop(plan->edit->compile_applet/lint_applet->pass)]
+====== END FILE 1 ======
+
+====== BEGIN FILE 2: /INSTRUCTIONS/PLANNING.md ======
+DOCS & PLANNING RULES
+[DOCS] Save requested docs to /Document (auto-create dir & select format).
+[PLAN] File: Document/PLAN.md.
+SAVE ONLY upon explicit user command/agreement ("Do it" = Agreed).
+APPEND ONLY. NEVER overwrite/delete old plans.
+Track status (active/dropped) to allow reverting.
+====== END FILE 2 ======
+
+====== BEGIN FILE 3: /INSTRUCTIONS/UI_DESIGN.md ======
+UI DESIGN RULES
+[MINDSET] Pick ONE: minimal-editorial | brutalist | retro-future | utilitarian | soft-luxury. Commit fully.
+[TYPO]
+BANNED: Inter, Roboto, Arial, system-ui. Pick max 2 distinct Google Fonts (e.g., Syne+Lora, SpaceMono+IBM).
+Hierarchy: Headings = tracking-tight, leading-[1.2]. Body = leading-relaxed, max-w-[65ch] (mx-auto).
+Modifiers: Uppercase MUST use text-xs + tracking-wider. Text-desc MUST reduce opacity/color.
+[COLOR & TEXTURE]
+BANNED: Tailwind default blue/teal, flat pure #000/#FFF. Use OKLCH or opinionated HEX.
+Depth: NO flat solid bg. Use subtle noise (SVG), radial glow, or glassmorphism (bg-black/50 + backdrop-blur-sm).
+Shadows: Use color-matched shadows, diffused (e.g., shadow-[0_8px_30px_rgba(X,X,X,0.12)]).
+[LAYOUT & MATH STRICTIONS]
+8pt Grid: Margin/Padding MUST divide by 4.
+Break Symmetry: Asymmetric columns, overlapping, sticky scrolls. Negative space is a tool.
+Margin Rule: Outer Margin > 2x Inner Padding.
+Radius Math: Child_Radius = Parent_Radius - Padding. Avoid clipping!
+[COMPONENTS]
+Buttons: Asymmetric (px-4 py-2). MUST have: hover (bg), active (scale-95), disabled (opacity-50), and focus:ring.
+Inputs: Visible labels. Focus ring MUST NOT trigger layout shift. Error state = red ring + text-[11px] + icon.
+Cards: Combine at least 2 different card treatments per view.
+[MOTION & UX]
+Intro: Staggered fade-up (delay increments). Hover: 200ms ease-out. Reveals: 600ms. NO bouncing.
+Load/Empty: Skeletons (animate-pulse) > Spinners. Empty State BẮT BUỘC có: [Icon mờ + Text + CTA Button].
+====== END FILE 3 ======
+
+====== BEGIN FILE 4: /INSTRUCTIONS/DEVELOPMENT.md ======
+# DEVELOPMENT & SEARCH RULES
+1. [UI_FIRST] Propose Web UI -> Await approval.
+2. [REF] Use provided '@google/genai Models' list.
+3. [CONTEXT] Priority: `/Document` > Latest Search/Training Data.
+4. [STACK] Prefer Open Source/Github. Propose MOST SUITABLE version (not strictly newest).
+5. [WEB_DEMO] Responsive + Tailwind CSS.
+6. [NATIVE] Port ONLY if requested.
+====== END FILE 4 ======
+[/SYSTEM_INIT_PROTOCOL]
