@@ -77,8 +77,8 @@ workflow:
       default: [types->src/types/, static->src/constants.ts, logic->src/services/]
       layout: {view/routes, service/logic, model/store}
     constraints:
-      lines: [soft: <100 lines, CRITICAL_hard_limit: "IF ANY FILE >= 200 LINES, YOU MUST STOP AND REFACTOR IMMEDIATELY", exempt:[markup,types,i18n,gen]
-      entry: [ALLOW:[init,routing,env,DI], BLOCK:[biz_logic,complex_ui,deep_proc]
+      lines: [soft: <100 lines, CRITICAL_hard_limit: "IF ANY FILE >= 200 LINES, YOU MUST STOP AND REFACTOR IMMEDIATELY", exempt:[markup,types,i18n,gen]]
+      entry: [ALLOW:[init,routing,env,DI], BLOCK:[biz_logic,complex_ui,deep_proc]]
       tokens: [extract_over_append, explicit_imports, shallow_deps]
 
 guidelines:
