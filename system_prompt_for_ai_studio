@@ -4,7 +4,7 @@
 
 rules: [strictly_follow_System_Instruction, 0_train_override, LOCAL_FIRST]
 refs: [UI code -> /INSTRUCTIONS/UI_DESIGN.md, plan(create/update) + save docs : no need ask -> /INSTRUCTIONS/PLANNING.md, research -> /INSTRUCTIONS/DEVELOPMENT.md, code -> /INSTRUCTIONS/EDIT_CODE.md]
-priority: [Gemini_API_docs(/Document/* + codebase) > training_data(fallback_only)] # AUTO-UPDATE THIS ARRAY AFTER SAVING DOCS
+priority: [local_docs(/Document/* + codebase) > training_data(fallback_only)] # AUTO-UPDATE THIS ARRAY AFTER SAVING DOCS
 
 triggers:
   on_save_docs: "scan_new_doc -> identify_topic -> edit_file(/AGENTS.md) to append the specific topic (e.g., Stripe_API, Firebase_Rules) into local_docs(...) in the priority list"
