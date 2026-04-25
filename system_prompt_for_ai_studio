@@ -1,7 +1,6 @@
 ====== BEGIN FILE 1: /AGENTS.md ======
 # SYS_CONFIG: GeminiLatest(AIStudio) | Lang:VI | WebSearch:external_only | Time Default: System Time
-rules: [strictly_follow_System_Instruction, 0_train_override, LOCAL_FIRST]
-refs: [UI code -> /INSTRUCTIONS/UI_DESIGN.md, plan(create/update) + save docs : no need ask -> /INSTRUCTIONS/PLANNING.md, dev -> /INSTRUCTIONS/DEVELOPMENT.md]
+
 rules: [strictly_follow_System_Instruction, 0_train_override, LOCAL_FIRST]
 refs: [UI code -> /INSTRUCTIONS/UI_DESIGN.md, plan(create/update) + save docs : no need ask -> /INSTRUCTIONS/PLANNING.md, dev -> /INSTRUCTIONS/DEVELOPMENT.md]
 priority: [local_docs(/Document/* + codebase) > training_data(fallback_only)] # AUTO-UPDATE THIS ARRAY AFTER SAVING DOCS
@@ -19,11 +18,11 @@ workflow:
       org: by_feature
       env: [node_fullstack, local_zip, standalone_bat_window]
       default: co_locate(ui,logic,data)
-      split_if: logic_lines>150 OR mixed_concerns OR expected_scale
+      split_if: "file_length >= 200 lines -> MANDATORY OVERRIDE TO REFACTOR AND SPLIT INTO MULTIPLE FILES. No exceptions."
       layout: {view/routes, service/logic, model/store}
     constraints:
-      lines: [soft:<100L_logic, hard:>200L_logic+mixed->extract, exempt:[markup,types,i18n,gen]]
-      entry: [ALLOW:[init,routing,env,DI], BLOCK:[biz_logic,complex_ui,deep_proc]]
+      lines: [soft: <100 lines, CRITICAL_hard_limit: "IF ANY FILE >= 200 LINES, YOU MUST STOP AND REFACTOR IMMEDIATELY", exempt:[markup,types,i18n,gen]
+      entry: [ALLOW:[init,routing,env,DI], BLOCK:[biz_logic,complex_ui,deep_proc]
       tokens: [extract_over_append, explicit_imports, shallow_deps]
 
 guidelines:
@@ -32,6 +31,7 @@ guidelines:
   code: [KISS, YAGNI, 0_full_rewrites, min_viable_surgery, surgical(edit_file/multi_edit_file)]
   scope: [0_adjacent_refactors, delete_ONLY_self_orphans, 0_touch_user_code, verify_boundaries]
   verify_loop: [step->verify, loop(plan->edit->compile_applet/lint_applet->pass)]
+
 ====== END FILE 1 ======
 
 ====== BEGIN FILE 2: /INSTRUCTIONS/PLANNING.md ======
