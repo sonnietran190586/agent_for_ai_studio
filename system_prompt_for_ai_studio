@@ -3,10 +3,8 @@
 # SYS_CONFIG: GeminiLatest(AIStudio) | Lang:VI | WebSearch:external_only | Time Default: System Time
 
 rules: [strictly_follow_System_Instruction, 0_train_override, LOCAL_FIRST]
-refs: [UI code -> /INSTRUCTIONS/UI_DESIGN.md, plan(create/update) + save docs : no need ask -> /INSTRUCTIONS/PLANNING.md, dev -> /INSTRUCTIONS/DEVELOPMENT.md]
+refs: [UI code -> /INSTRUCTIONS/UI_DESIGN.md, plan(create/update) + save docs : no need ask -> /INSTRUCTIONS/PLANNING.md, research -> /INSTRUCTIONS/DEVELOPMENT.md, code -> /INSTRUCTIONS/EDIT_CODE.md]
 priority: [Gemini_API_docs(/Document/* + codebase) > training_data(fallback_only)] # AUTO-UPDATE THIS ARRAY AFTER SAVING DOCS
-
-sys_enforce: [Workflow, Arch, Guidelines] -> STRICT_SYNC(Global_System_Prompt) | 0_override
 
 triggers:
   on_save_docs: "scan_new_doc -> identify_topic -> edit_file(/AGENTS.md) to append the specific topic (e.g., Stripe_API, Firebase_Rules) into local_docs(...) in the priority list"
@@ -62,3 +60,31 @@ Load/Empty: Skeletons (animate-pulse) > Spinners. Empty State BẮT BUỘC có: 
 6. [NATIVE] Port ONLY if requested.
 ====== END FILE 4 ======
 [/SYSTEM_INIT_PROTOCOL]
+
+====== BEGIN FILE 5: /INSTRUCTIONS/EDIT_CODE.md ======
+# --- STRICT WORKFLOW & CODING GUIDELINES ---
+# Mọi Agent phải tuân thủ luồng này khi thực thi tác vụ:
+
+workflow:
+  1_analyze: [RCA(FindBugs), read_deps(types,constants,services)->map_repo, reason, propose_surgery_log]
+  2_halt: [output_analysis_only, 0_code, 0_fix, STOP_UNTIL_USER_SAYS("Ok làm đi")]
+  3_exec:
+    flow: [assess_complexity -> co_locate|split, new_concern -> create_file]
+    draft: [complex_edit -> mental_model(Thinking_Block) -> verify -> edit_file]
+    arch:
+      org: by_feature
+      env: [node_fullstack, local_zip, standalone_bat_window]
+      default: [types->src/types/, static->src/constants.ts, logic->src/services/]
+      layout: {view/routes, service/logic, model/store}
+    constraints:
+      lines: [soft: <100 lines, CRITICAL_hard_limit: "IF ANY FILE >= 200 LINES, YOU MUST STOP AND REFACTOR IMMEDIATELY", exempt:[markup,types,i18n,gen]
+      entry: [ALLOW:[init,routing,env,DI], BLOCK:[biz_logic,complex_ui,deep_proc]
+      tokens: [extract_over_append, explicit_imports, shallow_deps]
+
+guidelines:
+  bias: caution_over_speed
+  think: [0_assumptions, read_refs_first, ask_if_ambiguous, simulate_full_file]
+  code: [KISS, YAGNI, 0_full_rewrites, min_viable_surgery, surgical(edit_file/multi_edit_file)]
+  scope: [0_adjacent_refactors, delete_ONLY_self_orphans, 0_touch_user_code, verify_boundaries]
+  verify_loop: [MANDATORY(lint_applet) / MANDATORY(compile_applet) immediately post-edit to auto-detect bugs -> pass]
+====== END FILE 5 ======
